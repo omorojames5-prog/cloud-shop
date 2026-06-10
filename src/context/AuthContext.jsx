@@ -1,6 +1,15 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useState, useContext } from "react";
 
 const AuthContext = createContext(null);
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(
@@ -52,12 +61,3 @@ export default function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
-
-function useAuth() {
-  const context = useContext(AuthContext);
-
-  return context;
-}
-
-// Attach hook to the default export so the file only exports a component
-AuthProvider.useAuth = useAuth;
